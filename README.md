@@ -36,7 +36,7 @@
     
 4. Running Tests
     * To Start Test:
-    - Navigate to karma-jasmine-sample
+    - Navigate to Python-Behave-Selenium
     - Run following command
     * Execution
     ```
