@@ -4,7 +4,8 @@
 
 ### Environment Setup
 
-1. Global Dependencies
+1. Global Dependencies   
+   
    -Windows
    * Download the latest python installer for Windows: http://sourceforge.net/projects/pywin32/files/pywin32/
    * Run the installer and follow the setup wizard to install Python
