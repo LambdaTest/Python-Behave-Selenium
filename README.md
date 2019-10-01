@@ -35,12 +35,10 @@
     * Install project dependencies by running command `pip install -r requirements.txt`
     
 4. Running Tests
-    * To Start Test:
     - Navigate to Python-Behave-Selenium
     - Run following command
-    * Execution
     ```
-    $ behave features\todo.feature
+    $ behave features/lambdatest.feature
     ```
 
 #####  Routing traffic through your local machine

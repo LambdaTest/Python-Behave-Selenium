@@ -12,8 +12,12 @@ def before_all(context):
     
     if os.getenv('LT_USERNAME', 0) == 0:
         context.user_name = config.get('Environment', 'UserName')
-    if os.getenv('LT_APPKEY', 0)  == 0:
+    else:
+        context.user_name = os.getenv('LT_USERNAME')
+    if os.getenv('LT_ACCESS_KEY', 0)  == 0:
         context.app_key = config.get('Environment', 'AppKey' )
+    else:
+        context.app_key = os.getenv('LT_ACCESS_KEY')
     if os.getenv('LT_OPERATING_SYSTEM', 0) == 0:
         context.os = config.get('Environment', 'OS' )
     if os.getenv('LT_BROWSER', 0)  == 0:
