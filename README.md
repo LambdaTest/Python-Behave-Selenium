@@ -25,16 +25,26 @@
             ```
             set LT_USERNAME=<your LambdaTest username>
             set LT_ACCESS_KEY=<your LambdaTest access key>
-    	    ```	
+    	       ```
 
 ### 3. Setup
 
-    * Clone [Python-Behave-Selenium](https://github.com/LambdaTest/python-behave-selenium.git) from GitHub.
-    * Navigate to the cloned directory
-    * Install project dependencies by running command `pip install -r requirements.txt`
-    
+ * Clone [Python-Behave-Selenium](https://github.com/LambdaTest/python-behave-selenium.git) from GitHub.
+ * Navigate to the cloned directory
+ * Install project dependencies by running command:
+ 
+ ```
+   pip install -r requirements.txt
+ ```
+
+## Test Scenario
+
+### Single Test
+
 ### 4. Running Tests
-    - Navigate to Python-Behave-Selenium
+
+* Navigate to Python-Behave-Selenium
+    - 
     - Run following command
     ```
     $ behave features/lambdatest.feature
