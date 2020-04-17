@@ -26,39 +26,14 @@
             set LT_USERNAME=<your LambdaTest username>
             set LT_ACCESS_KEY=<your LambdaTest access key>
     	    ```	
-### Environment Setup
 
-1. Global Dependencies   
-   
-   -Windows
-   * Download the latest python installer for Windows: http://sourceforge.net/projects/pywin32/files/pywin32/
-   * Run the installer and follow the setup wizard to install Python
-   
-   -Linux/Mac
-   * Run python --version to see which python version is currently installed, make sure it is 2.5.X or above.
-   * OS X, Ubuntu and most other Linux distro's come with Python pre-installed.
-   
-2. Lambdatest Credentials
-    * Set LambdaTest username and access key in environment variables. It can be obtained from [LambdaTest dashboard](https://automation.lambdatest.com/)    
-    example:
-    - For linux/mac
-    ```
-    export LT_USERNAME="YOUR_USERNAME"
-    export LT_ACCESS_KEY="YOUR ACCESS KEY"
-    
-    ```
-    - For Windows
-    ```
-    set LT_USERNAME="YOUR_USERNAME"
-    set LT_ACCESS_KEY="YOUR ACCESS KEY"
-    
-    ```
-3. Setup
+### 3. Setup
+
     * Clone [Python-Behave-Selenium](https://github.com/LambdaTest/python-behave-selenium.git) from GitHub.
     * Navigate to the cloned directory
     * Install project dependencies by running command `pip install -r requirements.txt`
     
-4. Running Tests
+### 4. Running Tests
     - Navigate to Python-Behave-Selenium
     - Run following command
     ```
