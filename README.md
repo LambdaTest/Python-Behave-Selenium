@@ -38,6 +38,14 @@
  ```
    pip install -r requirements.txt
  ```
+ 
+ Requirements.txt file includes the following:
+ 
+ ```
+ behave
+selenium
+ConfigParser
+```
 
 ## Test Scenario
 
