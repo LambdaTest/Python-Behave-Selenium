@@ -65,7 +65,7 @@ paver run
 ```
 ##### Running tests through local (windows)
 ```bash
-behave features/lambdatest.feature 
+behave features/test.feature 
 ```
 
 ##### Running tests through jenkins
