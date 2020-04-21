@@ -53,7 +53,7 @@ ConfigParser
 
 In our demonstration, we will be creating a script that uses the Selenium WebDriver to click check boxes and add button. If assert returns true, it indicates that the test case passed successfully and will show up in the automation logs dashboard else if assert returns false, the test case fails, and the errors will be displayed in the automation logs.
 
-You have successfully configured your project and are ready to execute your first pytest selenium testing script. Here is the configuration file for pytest selenium Testing. Lets call it <code>Steps_defination.py</code>.
+You have successfully configured your project and are ready to execute your first pytest selenium testing script. Here is the  file for pytest selenium Testing which includes config.cfg fie. Lets call it <code>Steps_defination.py</code>.
 
 ```
 from selenium import webdriver
@@ -62,7 +62,8 @@ from configparser import ConfigParser
 
 caps={}
 
-def before_all(context):    
+
+    def before_all(context):    
     config = ConfigParser()
     print ((os.path.join(os.getcwd(), 'config.cfg')))
     my_file = (os.path.join(os.getcwd(), 'config.cfg'))
