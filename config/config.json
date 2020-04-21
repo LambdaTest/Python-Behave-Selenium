@@ -1,0 +1,14 @@
+[
+    {
+      "platform": "win10",
+      "browserName": "chrome",
+      "version": "76.0",
+      "resolution": "1024x768",
+      "name": "Behave Sample Test",
+      "network": "true",
+      "video": "true",
+      "visual": "true",
+      "console": "true"
+    }
+  ]
+  
