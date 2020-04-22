@@ -27,7 +27,7 @@
             ```
             set LT_USERNAME=<your LambdaTest username>
             set LT_ACCESS_KEY=<your LambdaTest access key>
-    	       ```
+            ```
 
 ### 3. Setup
 
@@ -199,7 +199,6 @@ Run test in parallel:
 
 ```
 behave features/test.feature 
-
 ```
 
 ##  Routing traffic through your local machine using Lambdatest
