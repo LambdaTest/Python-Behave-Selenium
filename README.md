@@ -42,9 +42,9 @@
  Requirements.txt file includes the following:
  
  ```
- behave
-selenium
-ConfigParser
+Paver==1.3.4
+selenium==3.141.0
+behave==1.2.6
 ```
 
 ## Test Scenario
@@ -53,87 +53,108 @@ ConfigParser
 
 In our demonstration, we will be creating a script that uses the Selenium WebDriver to click check boxes and add button. If assert returns true, it indicates that the test case passed successfully and will show up in the automation logs dashboard else if assert returns false, the test case fails, and the errors will be displayed in the automation logs.
 
-You have successfully configured your project and are ready to execute your first pytest selenium testing script. Here is the  file for pytest selenium Testing which includes config.cfg fie. Lets call it <code>Steps_defination.py</code>.
+You have successfully configured your project and are ready to execute your first pytest selenium testing script. Here is the  file for behave selenium Testing. Lets call it <code>config.cfg</code>.
+
+```
+[
+    {
+      "platform": "win10",
+      "browserName": "chrome",
+      "version": "76.0",
+      "resolution": "1024x768",
+      "name": "Behave Sample Test",
+      "network": "true",
+      "video": "true",
+      "visual": "true",
+      "console": "true"
+    }
+  ]
+```
+
+Here is <code>environment.py</code> file:
 
 ```
 from selenium import webdriver
 import os
-from configparser import ConfigParser
+import json
 
-caps={}
+INDEX = int(os.environ['INDEX']) if 'INDEX' in os.environ else 0
+if os.environ.get("env") == "jenkins":
+    desired_cap_dict = os.environ["LT_BROWSERS"]
+    CONFIG = json.loads(desired_cap_dict)
+else:
+    json_file = "config/config.json"
+    with open(json_file) as data_file:
+        CONFIG = json.load(data_file)
+
+username = os.environ["LT_USERNAME"]
+authkey = os.environ["LT_ACCESS_KEY"]
 
 
-    def before_all(context):    
-    config = ConfigParser()
-    print ((os.path.join(os.getcwd(), 'config.cfg')))
-    my_file = (os.path.join(os.getcwd(), 'config.cfg'))
-    config.read(my_file)
-    
-    if os.getenv('LT_USERNAME', 0) == 0:
-        context.user_name = config.get('Environment', 'UserName')
-    else:
-        context.user_name = os.getenv('LT_USERNAME')
-    if os.getenv('LT_ACCESS_KEY', 0)  == 0:
-        context.app_key = config.get('Environment', 'AppKey' )
-    else:
-        context.app_key = os.getenv('LT_ACCESS_KEY')
-    if os.getenv('LT_OPERATING_SYSTEM', 0) == 0:
-        context.os = config.get('Environment', 'OS' )
-    if os.getenv('LT_BROWSER', 0)  == 0:
-        context.browser = config.get('Environment', 'Browser' )
-    if os.getenv('LT_BROWSER_VERSION', 0)  == 0:
-        context.browser_version = config.get('Environment', 'BrowserVersion' )
+def before_feature(context, feature):
+    desired_cap = setup_desired_cap(CONFIG[INDEX])
+    context.browser = webdriver.Remote(
+        desired_capabilities=desired_cap,
+        command_executor="https://%s:%s@hub.lambdatest.com:443/wd/hub" % (username, authkey)
+    )
 
-    remote_url= "https://"+context.user_name+":"+context.app_key+"@hub.lambdatest.com/wd/hub"
-    caps['name'] = "LambdaTesBehaveSample"
-    caps['build'] = "LambdaTestSampleApp"
-    caps['browserName'] = context.browser       
-    caps['version'] = context.browser_version
-    caps['platform'] = context.os
-    caps['network'] = True
-    caps['visual']= True
-    caps['video']= True
-    caps['console']= True
-    print ( caps )
-    print ( remote_url )
-    context.driver = webdriver.Remote(command_executor=remote_url,desired_capabilities=caps) 
 
-@given('I go to 4davanceboy to add item')
-def step(context):
-    before_all(context)
-    context.driver.get('https://lambdatest.github.io/sample-todo-app/')
-
-@then('I Click on first checkbox and second checkbox')
-def click_on_checkbox_one(context):
-    context.driver.find_element_by_name('li1').click()
-    context.driver.find_element_by_name('li2').click()
-
-@when('I enter item to add')
-def enter_item_name(context):
-    context.driver.find_element_by_id('sampletodotext').send_keys("Yey, Let's add it to list")
-
-@when('I click add button')
-def click_on_add_button(context):
-    context.driver.find_element_by_id('addbutton').click()
-
-@then('I should verify the added item')
-def see_login_message(context):
-    context.driver.implicitly_wait(10)
-    added_item = context.driver.find_element_by_xpath("//span[@class='done-false']").text
-    print(added_item)
-    print(added_item)
-    if added_item in "Yey, Let's add it to list":
-        return True
-    else:
-        return False
-
-def after_all(context):
+def after_feature(context, feature):
     context.browser.quit()
+
+
+def setup_desired_cap(desired_cap):
+    """
+    sets the capability according to LT
+    :param desired_cap:
+    :return:
+    """
+    if os.environ.get('env') == 'jenkins':
+        #sets the platform type
+        desired_cap["platform"] = desired_cap["operatingSystem"]
+        del desired_cap["operatingSystem"]
+        #sets the browser version
+        desired_cap["version"] = desired_cap["browserVersion"]
+        del desired_cap["browserVersion"]
+        #sets the tunnel name if configured
+        if "LT_TUNNEL_NAME" in os.environ:
+            desired_cap["TunnelName"] = os.environ["LT_TUNNEL_NAME"]
+            desired_cap["tunnel"] = "true"
+    if "tunnel" in desired_cap:
+        if desired_cap["tunnel"].lower() == "true":
+            desired_cap["tunnel"] = True
+        elif desired_cap["tunnel"].lower() == "false":
+            desired_cap["tunnel"] = False
+    #shows the console logs in LT dashboard if set to true
+    if "console" in desired_cap:
+        if desired_cap["console"].lower() == "true":
+            desired_cap["console"] = True
+        elif desired_cap["console"].lower() == "false":
+            desired_cap["console"] = False
+    #shows the network logs in LT dashboard if set to true
+    if "network" in desired_cap:
+        if desired_cap["network"].lower() == "true":
+            desired_cap["network"] = True
+        elif desired_cap["network"].lower() == "false":
+            desired_cap["network"] = False
+    #shows the network logs in LT dashboard if set to true
+    if "visual" in desired_cap:
+        if desired_cap["visual"].lower() == "true":
+            desired_cap["visual"] = True
+        elif desired_cap["visual"].lower() == "false":
+            desired_cap["visual"] = False
+    # shows the video logs in LT dashboard if set to true
+    if "video" in desired_cap:
+        if desired_cap["video"].lower() == "true":
+            desired_cap["video"] = True
+        elif desired_cap["video"].lower() == "false":
+            desired_cap["video"] = False
+    return desired_cap
       
     
 ```
 
-#### To run file :
+#### To run file  :
 
 ```
     $ behave features/lambdatest.feature
@@ -141,6 +162,45 @@ def after_all(context):
 
 ![behave](https://github.com/Apoorvlt/test/blob/master/behavecap.PNG)
 
+
+### Parallel Testing
+
+To run tests in parallel you need to set capaibilies and Update `config.json`  (List of supported OS platfrom, Browser, resolutions can be found at [LambdaTest capability generator](https://www.lambdatest.com/capabilities-generator/))
+ example:
+
+Setting capabilties for parallel execution
+```
+   [
+     {
+        "platform": "win10",
+        "browserName": "chrome",
+        "version": "67.0",
+        "resolution": "1024x768",
+        "name": "this is the behave test",
+        "build": "behave-test-lambdatest"
+     },
+     {
+        "platform": "win7",
+        "browserName": "firefox",
+        "version": "61.0",
+        "resolution": "1024x768",
+        "name": "this is the behave test",
+        "build": "behave-test-lambdatest"
+     }
+   ]
+   
+```
+
+```
+* Note: Parallel is only working in windows due to paver library windows support issue.
+```
+
+Run test in parallel:
+
+```
+behave features/test.feature 
+
+```
 
 ##  Routing traffic through your local machine using Lambdatest
 - Set tunnel value to `True` in test capabilities
