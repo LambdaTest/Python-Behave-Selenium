@@ -202,6 +202,11 @@ behave features/test.feature
 
 ```
 
+You can see these test log in our LambdaTest Automation page as well.
+
+![](https://github.com/Apoorvlt/test/blob/master/cappal.PNG)
+
+
 ##  Routing traffic through your local machine using Lambdatest
 - Set tunnel value to `True` in test capabilities
 > OS specific instructions to download and setup tunnel binary can be found at the following links.
