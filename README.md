@@ -53,7 +53,7 @@ behave==1.2.6
 
 In our demonstration, we will be creating a script that uses the Selenium WebDriver to click check boxes and add button. If assert returns true, it indicates that the test case passed successfully and will show up in the automation logs dashboard else if assert returns false, the test case fails, and the errors will be displayed in the automation logs.
 
-You have successfully configured your project and are ready to execute your first pytest selenium testing script. Here is the  file for behave selenium Testing. Lets call it <code>config.cfg</code>.
+You have successfully configured your project and are ready to execute your first behave selenium testing script. Here is the  file for behave selenium Testing. Lets call it <code>config.cfg</code>.
 
 ```
 [
