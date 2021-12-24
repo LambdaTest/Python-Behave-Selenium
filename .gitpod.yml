@@ -1,4 +1,4 @@
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
   - init: 'pip3 install -r requirements.txt' # runs during prebuild
-    command: paver run'
+    command: 'paver run'
