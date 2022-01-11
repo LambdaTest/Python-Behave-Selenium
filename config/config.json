@@ -1,14 +1,10 @@
 [
     {
-      "platform": "win10",
+      "platform": "Windows 10",
       "browserName": "chrome",
-      "version": "76.0",
-      "resolution": "1024x768",
-      "name": "Behave Sample Test",
-      "network": "true",
-      "video": "true",
-      "visual": "true",
-      "console": "true"
+      "version": "latest",
+      "build": "Behave Selenium Sample",
+      "name": "Behave Sample Test"
     }
   ]
   

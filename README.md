@@ -6,7 +6,7 @@ Behave integration with LambdaTest<br/>
 
 
 ### Setup
-Install depedencies ```pip install -r requirements.txt```
+Install depedencies ```pip3 install -r requirements.txt```
 ### Configuration steps
 ##### Setting locally
 - Set LambdaTest username and access key in environment variables. It can be obtained from [LambdaTest dashboard](https://automation.lambdatest.com/)
@@ -30,18 +30,16 @@ example:
 ```
    [
      {
-        "platform": "win10",
+        "platform": "Windows 10",
         "browserName": "chrome",
-        "version": "67.0",
-        "resolution": "1024x768",
+        "version": "latest",
         "name": "this is the behave test",
         "build": "behave-test-lambdatest"
      },
      {
-        "platform": "win7",
+        "platform": "Windows 7",
         "browserName": "firefox",
-        "version": "61.0",
-        "resolution": "1024x768",
+        "version": "latest-1",
         "name": "this is the behave test",
         "build": "behave-test-lambdatest"
      }
