@@ -1,60 +1,70 @@
-![LambdaTest Logo](https://www.lambdatest.com/static/images/logo.svg)
----
+# Python--Behave-Selenium
 
-# python-behave-todo
-Behave integration with LambdaTest<br/>
+![MSTest](https://opengraph.githubassets.com/c665560d7f7580ef26b1c07f530b187d94be1f86882c790b51d2cceb9414e9d2/LambdaTest/Python-Behave-Selenium)
 
+## Prerequisites
 
-### Setup
-Install depedencies ```pip3 install -r requirements.txt```
-### Configuration steps
-##### Setting locally
-- Set LambdaTest username and access key in environment variables. It can be obtained from [LambdaTest dashboard](https://automation.lambdatest.com/)
-example:
-- For linux/mac
-```
-   export LT_USERNAME="YOUR_USERNAME"
-   export LT_ACCESS_KEY="YOUR ACCESS KEY"
-  
-```
-- For Windows
-```
-   set LT_USERNAME="YOUR_USERNAME"
-   set LT_ACCESS_KEY="YOUR ACCESS KEY"
-  
-```
- For setting capaibilies,Update `config.json`  (List of supported OS platfrom, Browser, resolutions can be found at [LambdaTest capability generator](https://www.lambdatest.com/capabilities-generator/))
- example:
+1. Install pip and python.
 
- Setting capabilties for parallel execution
 ```
-   [
-     {
-        "platform": "Windows 10",
-        "browserName": "chrome",
-        "version": "latest",
-        "name": "this is the behave test",
-        "build": "behave-test-lambdatest"
-     },
-     {
-        "platform": "Windows 7",
-        "browserName": "firefox",
-        "version": "latest-1",
-        "name": "this is the behave test",
-        "build": "behave-test-lambdatest"
-     }
-   ]
+sudo apt install python-pip
+sudo apt install python
 ```
-*Note: Parallel is only working in windows due paver library windows support issue.
 
-##### Setting test through jenkins
+2. The recommended way to run your tests would be in virtualenv. It will isolate the build from other setups you may have running and ensure that the tests run with the specified versions of the modules specified in the requirements.txt file.
+
+```
+pip install virtualenv
+```
+
+## Steps to Run your First Test
+
+Step 1. Clone the Python-Behave-Selenium Repository.
+
+```
+git clone https://github.com/LambdaTest/Python-Behave-Selenium
+```
+
+Step 2. Next we create and Activate the virtual environment in the Python-Behave-Selenium folder.
+
+```
+virtualenv venv
+source venv/bin/activate
+```
+
+Step 3. Then install required packages.
+
+```
+pip install -r requirements.txt
+```
+
+Step 4. Inside Python-Behave-Selenium folder, export the Lambda-test Credentials. You can get these from your automation dashboard.
+
+<p align="center">
+   <b>For Linux/macOS:</b>
+   
+```
+export LT_USERNAME="YOUR_USERNAME"
+export LT_ACCESS_KEY="YOUR ACCESS KEY"
+```
+
+<p align="center">
+   <b>For Windows:</b>
+   
+```
+set LT_USERNAME="YOUR_USERNAME"
+set LT_ACCESS_KEY="YOUR ACCESS KEY"
+```
+
+#### Setting test through jenkins
 Please refer this [url](https://www.lambdatest.com/support/docs/display/TD/Selenium+with+Jenkins)
-#####  Routing traffic through your local machine
+####  Routing traffic through your local machine
 - Set tunnel value to `true` in test capabilities
 > OS specific instructions to download and setup tunnel binary can be found at the following links.
 >    - [Windows](https://www.lambdatest.com/support/docs/display/TD/Local+Testing+For+Windows)
 >    - [Mac](https://www.lambdatest.com/support/docs/display/TD/Local+Testing+For+MacOS)
 >    - [Linux](https://www.lambdatest.com/support/docs/display/TD/Local+Testing+For+Linux)
+
 
 ### Run tests
 ##### Running tests through local (linux/unix)
