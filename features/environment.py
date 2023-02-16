@@ -28,7 +28,6 @@ def before_scenario(context, feature):
         desired_cap["browserName"] = "edge"
         desired_cap["platform"] = "Windows 8"
 
-    print(str(desired_cap))
     context.browser = webdriver.Remote(
         desired_capabilities=desired_cap,
         command_executor="https://%s:%s@hub.lambdatest.com:443/wd/hub" % (username, authkey)
