@@ -2,6 +2,8 @@
 Selenium steps to configure behave test scenarios
 """
 import time
+from behave import *
+
 
 @when('visit url "{url}"')
 def step(context, url):
