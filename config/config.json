@@ -1,10 +1,9 @@
 [
-    {
-      "platform": "Windows 10",
-      "browserName": "chrome",
-      "version": "latest",
-      "build": "Behave Selenium Sample",
-      "name": "Behave Sample Test"
-    }
-  ]
-  
+  {
+    "platform": "Windows 10",
+    "browserName": "chrome",
+    "version": "latest",
+    "build": "Behave Selenium Sample",
+    "name": "Behave Sample Test"
+  }
+]

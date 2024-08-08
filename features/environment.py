@@ -1,3 +1,4 @@
+from behave.model_core import Status
 from selenium import webdriver
 import os
 import json
@@ -15,15 +16,29 @@ username = os.environ["LT_USERNAME"]
 authkey = os.environ["LT_ACCESS_KEY"]
 
 
-def before_feature(context, feature):
+def before_scenario(context, feature):
     desired_cap = setup_desired_cap(CONFIG[INDEX])
+    if 'Chrome' in feature.tags:
+        desired_cap["browserName"] = "chrome"
+        desired_cap["platform"] = "Windows 11"
+    elif 'Firefox' in feature.tags:
+        desired_cap["browserName"] = "firefox"
+        desired_cap["platform"] = "Windows 10"
+    elif 'Edge' in feature.tags:
+        desired_cap["browserName"] = "edge"
+        desired_cap["platform"] = "Windows 8"
+
     context.browser = webdriver.Remote(
         desired_capabilities=desired_cap,
         command_executor="https://%s:%s@hub.lambdatest.com:443/wd/hub" % (username, authkey)
     )
 
 
-def after_feature(context, feature):
+def after_scenario(context, scenario):
+    if scenario.status == Status.failed:
+        context.browser.execute_script("lambda-status=failed")
+    else:
+        context.browser.execute_script("lambda-status=passed")
     context.browser.quit()
 
 
