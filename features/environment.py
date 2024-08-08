@@ -30,7 +30,7 @@ def before_scenario(context, feature):
 
     context.browser = webdriver.Remote(
         desired_capabilities=desired_cap,
-        command_executor="https://%s:%s@hub.lambdatest.com:443/wd/hub" % (username, authkey)
+        command_executor="https://%s:%s@hub.lambdatest.com/wd/hub" % (username, authkey)
     )
 
 
