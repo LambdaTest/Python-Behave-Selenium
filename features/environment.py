@@ -1,5 +1,8 @@
 from behave.model_core import Status
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.edge.options import Options as EdgeOptions
 import os
 import json
 
@@ -16,36 +19,70 @@ username = os.environ["LT_USERNAME"]
 authkey = os.environ["LT_ACCESS_KEY"]
 
 
-def before_scenario(context, feature):
-    desired_cap = setup_desired_cap(CONFIG[INDEX])
-    if 'Chrome' in feature.tags:
-        desired_cap["browserName"] = "chrome"
-        desired_cap["platform"] = "Windows 11"
-    elif 'Firefox' in feature.tags:
-        desired_cap["browserName"] = "firefox"
-        desired_cap["platform"] = "Windows 10"
-    elif 'Edge' in feature.tags:
-        desired_cap["browserName"] = "edge"
-        desired_cap["platform"] = "Windows 8"
 
-    context.browser = webdriver.Remote(
-        desired_capabilities=desired_cap,
-        command_executor="https://%s:%s@hub.lambdatest.com/wd/hub" % (username, authkey)
-    )
+def before_scenario(context, scenario):
+    try:
+        desired_cap = setup_desired_cap(CONFIG[INDEX])
+        
+        if 'Chrome' in scenario.tags:
+            options = ChromeOptions()
+            options.browser_version = desired_cap.get("version", "latest")
+            options.platform_name = "Windows 11"
+        elif 'Firefox' in scenario.tags:
+            options = FirefoxOptions()
+            options.browser_version = desired_cap.get("version", "latest")
+            options.platform_name = "Windows 10"
+        elif 'Edge' in scenario.tags:
+            options = EdgeOptions()
+            options.browser_version = desired_cap.get("version", "latest")
+            options.platform_name = "Windows 8"
+        else:
+            raise ValueError("Unsupported browser tag")
 
+        options.set_capability('build', desired_cap.get('build'))
+        options.set_capability('name', desired_cap.get('name'))
+
+        # Print options for debugging
+        print("Browser Options:", options.to_capabilities())
+
+        context.browser = webdriver.Remote(
+            command_executor=f"https://{username}:{authkey}@hub.lambdatest.com/wd/hub",
+            options=options
+        )
+    except Exception as e:
+        print(f"Error in before_scenario: {str(e)}")
+        context.scenario.skip(reason=f"Failed to initialize browser: {str(e)}")
 
 def after_scenario(context, scenario):
-    if scenario.status == Status.failed:
-        context.browser.execute_script("lambda-status=failed")
-    else:
-        context.browser.execute_script("lambda-status=passed")
-    context.browser.quit()
+    if hasattr(context, 'browser'):
+        try:
+            if scenario.status == Status.failed:
+                context.browser.execute_script("lambda-status=failed")
+            else:
+                context.browser.execute_script("lambda-status=passed")
+        except Exception as e:
+            print(f"Error setting lambda status: {str(e)}")
+        finally:
+            context.browser.quit()
 
 
 def setup_desired_cap(desired_cap):
     """
-    sets the capability according to LT
+    Sets the capability according to LT
     :param desired_cap:
     :return:
     """
-    return desired_cap
+    # Create a new dictionary to avoid modifying the original
+    cleaned_cap = {}
+    
+    for key, value in desired_cap.items():
+        if key == 'connect':
+            # Force 'connect' to be None if it's not a valid timeout value
+            if not isinstance(value, (int, float)) or value is None:
+                cleaned_cap[key] = None
+            else:
+                cleaned_cap[key] = value
+        else:
+            cleaned_cap[key] = value
+    
+    return cleaned_cap
