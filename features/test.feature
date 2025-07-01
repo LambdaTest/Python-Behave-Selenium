@@ -26,3 +26,9 @@ Feature: Automate a website
       When field with name "Second Item" is present check the box
       When select the textbox add "Let's add new to do item for Edge" in the box
       Then click the "addbutton"
+
+    @SmartUI
+    Scenario: Capture smartui snapshot
+      When visit url "https://lambdatest.github.io/sample-todo-app"
+      When check if title is "Sample page - lambdatest.com"
+      Then take smartui snapshot  

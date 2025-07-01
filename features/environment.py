@@ -36,6 +36,10 @@ def before_scenario(context, scenario):
             options = EdgeOptions()
             options.browser_version = desired_cap.get("version", "latest")
             options.platform_name = "Windows 8"
+        elif 'SmartUI' in scenario.tags:
+            options = ChromeOptions()
+            options.browser_version = desired_cap.get("version", "latest")
+            options.set_capability('smartUI.project','Python-Behave-sample')
         else:
             raise ValueError("Unsupported browser tag")
 

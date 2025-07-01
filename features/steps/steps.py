@@ -41,3 +41,7 @@ def step(context, text):
 def step(context, button):
     element = wait_for_element(context, By.ID, button)
     element.click()
+
+@then('take smartui snapshot')
+def step(context):
+    context.browser.execute_script("smartui.takeScreenshot= to-do")
